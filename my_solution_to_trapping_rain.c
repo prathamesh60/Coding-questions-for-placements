@@ -1,3 +1,6 @@
+;/* complexity=O(n^2);
+*/
+
 #include<stdio.h>
 int main() {
     int t,n,i,j,k,flag,p,vol,max;
