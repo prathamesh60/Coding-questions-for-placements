@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <limits.h>
+void printsolution(int n,int dp[][n],int i,int j,int a[])
+{
+    if(i==j)
+    {
+      char c=64+i;
+      printf("%c",c);
+    }
+    else
+    {
+       printf("(");
+        int i1,j1,p,x,y,k1;
+        int min=INT_MAX;
+        for(p=j-1;p>=i;p--)
+        { 
+            x=dp[i][p]+dp[p+1][j];
+            y=(a[i-1])*(a[p])*(a[j]);
+           // printf("%d %d %d %d %d %d\n",dp[i][p],dp[p+1][j],p+1,j,x,y);
+            if(x+y<min)
+            {   i1=i;
+                j1=p;
+                k1=j;
+                min=x+y;
+            }
+            
+        }
+       // printf("%d %d %d %d\n",i1,j1,k1,min);
+        printsolution(n,dp,i1,j1,a);
+        printsolution(n,dp,j1+1,k1,a);
+        printf(")");
+    }
+    
+}
+int find(int a[],int n)
+{   int i,j,k,p,min,x,y;
+    int dp[n][n];
+    
+    memset(dp,0,sizeof dp);
+    for(i=1;i<n;i++)
+    {
+        dp[i][i]=0;
+    }
+    
+    for(i=1;i<n-1;i++)
+    {  // printf("%d\n",i);
+        for(j=1;j<n-i;j++)
+        { k=i+j;
+          min=INT_MAX;
+          // printf("%d %d\n",j,k);
+          for(p=k-1;p>=j;p--)
+          {
+             x=dp[j][p]+dp[p+1][k];
+            // printf("%d\n",x);
+             y=(a[j-1])*(a[p])*(a[k]);
+            // printf("%d %d %d %d\n",a[j-1],a[p],a[k],y);
+             if(x+y<min)
+             min=x+y;
+            // printf("%d\n",min);
+          }
+          dp[j][k]=min;
+            
+        }
+    }
+   /* for(i=1;i<n;i++)
+    {
+        for(j=1;j<n;j++)
+        printf("%d ",dp[i][j]);
+        printf("\n");
+    }*/
+   // printf("\n");
+   // printf("1 %d\n\n",n-1);
+  //return dp[1][n-1];
+   printsolution(n,dp,1,n-1,a);
+}
+int main() {
+	int t,n,k,i,j;
+	scanf("%d",&t);
+	for(i=0;i<t;i++)
+	{
+	    scanf("%d",&n);
+	    int a[n];
+	    for(j=0;j<n;j++)
+	    {
+	        scanf("%d",&a[j]);
+	    }
+	   find(a,n);
+	   printf("\n");
+	}
+	return 0;
+}
