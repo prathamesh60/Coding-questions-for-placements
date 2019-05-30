@@ -21,6 +21,8 @@ Node *newnode(int data)
   return nptr;
 }
 Node *copyList(Node *head) {
+    //Here we create hashmap between original list and copy list 
+     //And then clone the list
      map<Node*,Node*> m;
      Node *curr=head;
      Node *copy=NULL,*kptr;
