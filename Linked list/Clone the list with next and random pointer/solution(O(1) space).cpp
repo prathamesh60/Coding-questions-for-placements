@@ -1,57 +1,66 @@
-/*Approach insert copy of 1st node between 1st and 2nd node then copy of 2nd node between 2nd and third node
-and so on(Insert copy of last node after nth node).
- Then to assign randon pointer we can write
-  curr->next->random=curr->random->next;
-  Here curr->next is nothing but new copy */
+/*This is a function problem.You only need to complete the function given below*/
+/*  the node structure is as follows
+struct Node {
+    int data;
+    Node *next;
+    Node *arb;
+    Node(int x) {
+        data = x;
+        next = NULL;
+        arb = NULL;
+    }
+};
+*/
+// Should return the head of the copied linked list the
+// output will be 1 if successfully copied
 
+Node* copyList(Node* A) {
+    Node *nptr=A,*copy=NULL,*kptr,*temp;
+    if(nptr!=NULL)
+    {
+        while(nptr!=NULL)
+        {
+            temp=nptr;
+            nptr=nptr->next;
+            kptr=(Node*)malloc(sizeof(Node));
+            kptr->data=temp->data;
+            kptr->next=temp->next;
+            temp->next=kptr;
+            if(copy==NULL)
+            {
+                copy=kptr;
+            }
+        }
+       nptr=A;
+       while(nptr!=NULL)
+       {   temp=nptr;
+           kptr=nptr->next;
+           nptr=kptr->next;
+           if(temp->arb==NULL)
+            {
+              kptr->arb=NULL;
+            }
+           else
+            {
+              kptr->arb=temp->arb->next;
+            }
+       }
+       nptr=A;
+       while(nptr!=NULL)
+       {
+           temp=nptr;
+           kptr=nptr->next;
+           nptr=kptr->next;
+           if(nptr!=NULL)
+           {
+               kptr->next=nptr->next;
+           }
+          temp->next=nptr;
+       }
+       //while()
+     }
+   /* if(copy!=NULL)
+    cout<<copy->label;*/
+    return copy;
+}
 
-
-Node* clone(Node *start) 
-{ 
-    Node* curr = start, *temp; 
-  
-    // insert additional node after 
-    // every node of original list 
-    while (curr) 
-    { 
-        temp = curr->next; 
-  
-        // Inserting node 
-        curr->next = new Node(curr->data); 
-        curr->next->next = temp; 
-        curr = temp; 
-    } 
-  
-    curr = start; 
-  
-    // adjust the random pointers of the 
-    // newly added nodes 
-    while (curr) 
-    { 
-        if(curr->next) 
-            curr->next->random = curr->random ?  
-                                 curr->random->next : curr->random; 
-  
-        // move to the next newly added node by 
-        // skipping an original node 
-        curr = curr->next?curr->next->next:curr->next; 
-    } 
-  
-    Node* original = start, *copy = start->next; 
-  
-    // save the start of copied linked list 
-    temp = copy; 
-  
-    // now separate the original list and copied list 
-    while (original && copy) 
-    { 
-        original->next = 
-         original->next? original->next->next : original->next; 
-  
-        copy->next = copy->next?copy->next->next:copy->next; 
-        original = original->next; 
-        copy = copy->next; 
-    } 
-  
-    return temp; 
-} 
