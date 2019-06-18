@@ -1,40 +1,23 @@
 int Solution::maximumGap(const vector<int> &A) {
-    vector< pair<int,int> > a;
-    int i,j,k=1;
-   // printf("%d\n",A.size());
-   for(i=0;i<A.size();i++)
+    vector<pair<int,int>>m;
+    for(int i=0;i<A.size();i++)
     {
-        a.push_back(make_pair(A[i],i));
+        m.push_back(make_pair(A[i],i));
     }
-   // printf("%d\n",a.size());
-  
-    sort(a.begin(),a.end());
-   /*for(i=0;i<a.size();i++)
-   {
-      printf("%d %d\n",a[i].first,a[i].second);
-   }*/
-   //printf("\n");
-   int right[a.size()],max;
-    right[a.size()-1]=a[a.size()-1].second;
-    max=a[a.size()-1].second;
-    //printf("%d\n",max);
-    for(i=a.size()-2;i>=0;i--)
-    {  
-        if(a[i].second > max )
-        max=a[i].second;
-        
-      right[i]=max;
-      // printf("%d\n",max);
+    sort(m.begin(),m.end());
+    int n=A.size();
+    int maxrightind[n];
+    maxrightind[n-1]=m[n-1].second;
+    for(int i=n-2;i>=0;i--)
+    {
+        maxrightind[i]=max(maxrightind[i+1],m[i].second);
     }
-    max=-1;
-   for(i=0;i<a.size();i++)
-   {   
-       if(right[i]-a[i].second>max)
-        max=right[i]-a[i].second;
-   }
-   if(A.size()==0)
-     return -1;
-   else
-     return max;
-
+    int maxdiff=0;
+    for(int i=0;i<n;i++)
+    {
+        int currdiff=maxrightind[i]-m[i].second;
+        if(currdiff>maxdiff)
+            maxdiff=currdiff;
+    }
+    return maxdiff;
 }
